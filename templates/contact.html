@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% include 'navbar.html' %}
+
+    {% for h in homes %}
+        <section class="hero-wrap hero-wrap-2 js-fullheight"
+                 style="background-image: url('{{ h.bg_photo.url }}');"
+                 data-stellar-background-ratio="0.5">
+    {% endfor %}
+
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+                <div class="col-md-9 ftco-animate pb-5 text-center">
+                    <h1 class="mb-3 bread">Contact us</h1>
+                    <p class="breadcrumbs">
+                        <span class="mr-2">
+                            <a href="/">Home <i class="ion-ios-arrow-forward"></i></a>
+                        </span>
+                        <span>About <i class="ion-ios-arrow-forward"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ftco-section contact-section">
+        <div class="container">
+            <div class="row d-flex mb-5 contact-info">
+                <div class="col-md-12 mb-4">
+                    <h2 class="h3">Contact Information</h2>
+                </div>
+
+                {% for c in contac_us %}
+                    <div class="w-100"></div>
+
+                    <div class="col-md-3">
+                        <p><span>Address:</span> {{ c.address }}</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <p><span>Phone:</span> <a href="tel://{{ c.phone }}">{{ c.phone }}</a></p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <p>
+                            <span>Email:</span>
+                            <a href="mailto:{{ c.email }}">{{ c.email }}</a>
+                        </p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <p>
+                            {% if c.website %}
+                                <span>Website:</span>
+                                {% if '://' in c.website %}
+                                    <a href="{{ c.website }}" target="_blank" rel="noopener">{{ c.website }}</a>
+                                {% else %}
+                                    <a href="https://{{ c.website }}" target="_blank" rel="noopener">{{ c.website }}</a>
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row block-9 no-gutters">
+                <div class="col-lg-6 order-md-last d-flex">
+                    <form method="post" action="#" class="bg-light p-4 p-md-5 contact-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+{#                            <input type="text" class="form-control" placeholder="Your Name">Name#}
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group">
+{#                            <input type="text" class="form-control" placeholder="Your Email">#}
+                            {{ form.email }}
+                        </div>
+                        <div class="form-group">
+{#                            <input type="text" class="form-control" placeholder="Subject">#}
+                            {{ form.subject }}
+                        </div>
+                        <div class="form-group">
+{#                            <textarea cols="30" rows="7" class="form-control" placeholder="Message"></textarea>#}
+                            {{ form.message }}
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-6 d-flex">
+                    <div id="map" class="bg-white"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

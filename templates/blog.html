@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'navbar.html' %}
+    {% for h in homes %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{{ h.bg_photo.url }}');"
+     data-stellar-background-ratio="0.5">
+{% endfor %}
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
+             data-scrollax-parent="true">
+            {% for home in homes %}
+            <div class="col-md-12 ftco-animate">
+                <h2 class="subheading">Hello! Welcome to</h2>
+                <h1 class="mb-4 mb-md-0">{{ home.title|capfirst }}</h1>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="text">
+                            <p>{{ home.body|capfirst }}</p>
+                            <div class="mouse">
+                                <a href="#" class="mouse-icon">
+                                    <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row d-flex">
+            {% for art in articles %}
+            <div class="col-md-4 d-flex ftco-animate">
+                <div class="blog-entry justify-content-end">
+                    <a href="{% url 'blogsingle' art.pk %}" class="block-20" style="background-image: url('{{art.photo.url}}');">
+                    </a>
+                    <div class="text p-4 float-right d-block">
+                        <div class="topper d-flex align-items-center">
+                            <div class="one py-2 pl-3 pr-1 align-self-stretch">
+                                <span class="day">{{ art.created_at|date:"d" }}</span>
+                            </div>
+                            <div class="two pl-0 pr-3 py-2 align-self-stretch">
+                                <span class="yr">{{ art.created_at|date:"Y" }}</span>
+                                <span class="mos">{{ art.created_at|date:"F" }}</span>
+                            </div>
+                        </div>
+                        <h3 class="heading mb-3"><a href="{% url 'blogsingle' art.pk %}">{{ art.title|capfirst}}</a></h3>
+                        <p>{{ art.body}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    <ul>
+                        {% if articles.has_previous %}
+                            <li><a href="?page={{ articles.previous_page_number }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in articles.paginator.page_range %}
+                            {% if articles.number == i %}
+                                <li class="active"><span><a href="?page={{ i }}">{{ i }}</a></span></li>
+                            {% else %}
+                                <li><span><a href="?page={{ i }}">{{ i }}</a></span></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if articles.has_next %}
+                            <li><a href="?page={{ articles.next_page_number }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

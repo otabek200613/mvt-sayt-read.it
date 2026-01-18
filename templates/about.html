@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% include 'navbar.html' %}
+    {% for h in homes %}
+        <section class="hero-wrap hero-wrap-2 js-fullheight"
+                 style="background-image: url('{{h.bg_photo.url}}');"
+                 data-stellar-background-ratio="0.5">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+                    <div class="col-md-9 ftco-animate pb-5 text-center">
+                        <h1 class="mb-3 bread">About</h1>
+                        <p class="breadcrumbs">
+                        <span class="mr-2">
+                            <a href="/">Home <i class="ion-ios-arrow-forward"></i></a>
+                        </span>
+                            <span>About <i class="ion-ios-arrow-forward"></i></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+
+    {% for a in abouts %}
+        <section class="ftco-section ftco-no-pt ftco-no-pb">
+            <div class="container">
+                <div class="row d-flex">
+
+                    <!-- LEFT: image/video -->
+                    <div class="col-md-6 d-flex">
+                        <div class="d-flex align-self-stretch align-items-center justify-content-center justify-content-md-end">
+                            <div class="w-100" style="position: relative; overflow: hidden; border-radius: 6px;">
+                                <img src="{{ a.photo.url }}" alt="{{ a.title }}" class="img-fluid w-100"
+                                     style="height: 100%; max-height: 420px; object-fit: cover;">
+
+                                {% if a.video %}
+                                    <a href="{{ a.video }}"
+                                       class="icon-video popup-vimeo d-flex justify-content-center align-items-center"
+                                       style="position:absolute; inset:0;">
+                                        <span class="icon-play"></span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: text + tabs -->
+                    <div class="col-md-6 pl-md-5 py-md-5">
+                        <div class="row justify-content-start pt-3 pb-3">
+                            <div class="col-md-12 heading-section ftco-animate">
+                                <h2 class="mb-4">{{ a.title }}</h2>
+                                <p>{{ a.body|linebreaks }}</p>
+
+                                {% if a.mission or a.vision or a.value %}
+                                    <div class="tabulation-2 mt-4">
+
+                                        <!-- NAV -->
+                                        <ul class="nav nav-pills nav-fill d-md-flex d-block">
+
+                                            {% if a.mission %}
+                                                <li class="nav-item mb-md-0 mb-2">
+                                                    <a class="nav-link active py-2" data-toggle="tab"
+                                                       href="#home1-{{ a.id }}">
+                                                        Our Mission
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% if a.vision %}
+                                                <li class="nav-item px-lg-2 mb-md-0 mb-2">
+                                                    <a class="nav-link py-2 {% if not a.mission %}active{% endif %}"
+                                                       data-toggle="tab" href="#home2-{{ a.id }}">
+                                                        Our Vision
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% if a.value %}
+                                                <li class="nav-item">
+                                                    <a class="nav-link py-2 mb-md-0 mb-2 {% if not a.mission and not a.vision %}active{% endif %}"
+                                                       data-toggle="tab" href="#home3-{{ a.id }}">
+                                                        Our Value
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+
+                                        </ul>
+
+                                        <!-- CONTENT -->
+                                        <div class="tab-content bg-light rounded mt-2">
+
+                                            {% if a.mission %}
+                                                <div class="tab-pane container p-0 active" id="home1-{{ a.id }}">
+                                                    <p>{{ a.mission|linebreaks }}</p>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if a.vision %}
+                                                <div class="tab-pane container p-0 fade {% if not a.mission %}show active{% endif %}"
+                                                     id="home2-{{ a.id }}">
+                                                    <p>{{ a.vision|linebreaks }}</p>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if a.value %}
+                                                <div class="tab-pane container p-0 fade {% if not a.mission and not a.vision %}show active{% endif %}"
+                                                     id="home3-{{ a.id }}">
+                                                    <p>{{ a.value|linebreaks }}</p>
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+
+{% endblock %}
