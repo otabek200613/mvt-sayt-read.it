@@ -7,14 +7,17 @@ from django.core.paginator import Paginator
 
 def home(request):
     homes = Home.objects.filter(is_active=True)
-    articles = Article.objects.filter(is_active=True)
+
+    qs = Article.objects.filter(is_active=True).order_by('-id')
+    paginator = Paginator(qs, 5)
+    page_number = request.GET.get('page')
+    articles = paginator.get_page(page_number)
+
     context = {
-        'homes':homes,
-        'articles':articles
-        }
-
-    return render(request,'index.html',context)
-
+        'homes': homes,
+        'articles': articles,
+    }
+    return render(request, 'index.html', context)
 
 
 
